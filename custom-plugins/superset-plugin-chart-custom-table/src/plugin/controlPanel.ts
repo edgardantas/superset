@@ -106,8 +106,18 @@ const config: ControlPanelConfig = {
             name: 'cols',
             config: {
               ...sharedControls.groupby,
-              label: t('Columns'),
-              description: t('Columns to group by'),
+              label: t('Columns Groupy By'),
+              description: t('Columns to group'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'colsLabels',
+            config: {
+              ...sharedControls.groupby,
+              label: t('Columns Labels'),
+              description: t('Columns with the labels'),
             },
           },
         ],
@@ -132,7 +142,7 @@ const config: ControlPanelConfig = {
       ],
     },
     {
-      label: t('Controles da Tabela'),
+      label: t('Controles da Tabela Resumo'),
       expanded: true,
       controlSetRows: [
         [
@@ -140,7 +150,7 @@ const config: ControlPanelConfig = {
             name: 'header_text',
             config: {
               type: 'TextControl',
-              default: 'Hello, World MPFAnalise!',
+              default: 'Hello, World MPFAnalise RIF!',
               renderTrigger: true,
               // ^ this makes it apply instantaneously, without triggering a "run query" button
               label: t('Header Text'),

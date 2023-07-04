@@ -18,6 +18,7 @@
  */
 import React, { useEffect, createRef } from 'react';
 import { styled } from '@superset-ui/core';
+import { Card } from 'antd';
 import { SupersetPluginChartCustomTableProps, SupersetPluginChartCustomTableStylesProps } from './types';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -60,7 +61,7 @@ const Styles = styled.div<SupersetPluginChartCustomTableStylesProps>`
 export default function SupersetPluginChartCustomTable(props: SupersetPluginChartCustomTableProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, height, width } = props;
+  const { data, cols, colsLabels, height, width } = props;
 
   const rootElem = createRef<HTMLDivElement>();
 
@@ -73,15 +74,29 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
 
   console.log('Plugin props', props);
 
+  function colsGroupConcat(index: number): string | undefined  {
+    console.info(cols);
+    let title = cols.reduce((prev,cur) => data[index][prev] + ' - ' + data[index][cur] as string);
+    
+    return title;
+    //return data[index][cols[0]]?.toString()
+
+  };
+
   return (
     <Styles
       ref={rootElem}
       boldText={props.boldText}
       headerFontSize={props.headerFontSize}
       height={height}
-      width={width}
-    >
-      <h3>{props.headerText}</h3>
+      width={width} cols={cols} colsLabels={colsLabels}    >
+      {/* <h3>{props.headerText}</h3> */}
+       
+      <Card title={colsGroupConcat(0)} bordered={false} style={{ width: 600 }}>
+        <p>Card content</p>
+        <p>Card content</p>
+        <p>Card content</p>
+      </Card>
       <pre>${JSON.stringify(data, null, 2)}</pre>
     </Styles>
   );

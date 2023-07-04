@@ -21,6 +21,8 @@ import { QueryFormData, supersetTheme, TimeseriesDataRecord } from '@superset-ui
 export interface SupersetPluginChartCustomTableStylesProps {
   height: number;
   width: number;
+  cols: string[], 
+  colsLabels: string[],
   headerFontSize: keyof typeof supersetTheme.typography.sizes;
   boldText: boolean;
 }
