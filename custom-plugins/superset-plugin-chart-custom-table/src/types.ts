@@ -23,6 +23,8 @@ export interface SupersetPluginChartCustomTableStylesProps {
   width: number;
   cols: string[], 
   colsLabels: string[],
+  metrics: any[],
+  numberFormat: string,
   headerFontSize: keyof typeof supersetTheme.typography.sizes;
   boldText: boolean;
 }

@@ -17,7 +17,7 @@
  * under the License.
  */
 import { t, validateNonEmpty } from '@superset-ui/core';
-import { ControlPanelConfig, sections, sharedControls } from '@superset-ui/chart-controls';
+import { ControlPanelConfig, sections, sharedControls, D3_FORMAT_DOCS, D3_FORMAT_OPTIONS, } from '@superset-ui/chart-controls';
 
 const config: ControlPanelConfig = {
   /**
@@ -155,6 +155,20 @@ const config: ControlPanelConfig = {
               // ^ this makes it apply instantaneously, without triggering a "run query" button
               label: t('Header Text'),
               description: t('The text you want to see in the header'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'number_format',
+            config: {
+              type: 'SelectControl',
+              freeForm: true,
+              label: t('Number format'),
+              renderTrigger: true,
+              default: 'SMART_NUMBER',
+              choices: D3_FORMAT_OPTIONS,
+              description: D3_FORMAT_DOCS,
             },
           },
         ],

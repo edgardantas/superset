@@ -97,6 +97,12 @@ class CeleryConfig(object):
         },
     }
 
+# Setup default language
+BABEL_DEFAULT_LOCALE = "pt_BR"
+
+LANGUAGES = {
+    "pt_BR": {"flag": "br", "name": "Brazilian Portuguese"},
+}
 
 CELERY_CONFIG = CeleryConfig
 

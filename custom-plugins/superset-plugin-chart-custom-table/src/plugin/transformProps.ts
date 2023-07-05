@@ -49,10 +49,22 @@ export default function transformProps(chartProps: ChartProps) {
    * be seen until restarting the development server.
    */
   const { width, height, formData, queriesData } = chartProps;
-  const { boldText, headerFontSize, headerText, cols, colsLabels } = formData;
-  const data = queriesData[0].data as TimeseriesDataRecord[];
+  const { boldText, headerFontSize, headerText, cols, colsLabels, metrics, numberFormat } = formData;
+  let data = queriesData[0].data as TimeseriesDataRecord[];
+
+  // data.forEach(element => {
+  //   console.info("dado", element);
+  //   let i= 0;
+  //   metrics.forEach((metrica: any) => {
+  //     element[element]
+  //     element[metrica.label]= "teste"
+  //     console.info("metrica", metrica);
+  //   });
+  // });
 
   console.log('formData via TransformProps.ts', formData);
+
+
 
   return {
     width,
@@ -60,6 +72,8 @@ export default function transformProps(chartProps: ChartProps) {
     data,
     cols, 
     colsLabels,
+    metrics,
+    numberFormat,
     // and now your control data, manipulated as needed, and passed through as props!
     boldText,
     headerFontSize,
