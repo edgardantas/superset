@@ -29,7 +29,7 @@ import { SupersetPluginChartCustomTableProps, SupersetPluginChartCustomTableStyl
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
 const Styles = styled.div<SupersetPluginChartCustomTableStylesProps>`
-  background-color: ${({ theme }) => theme.colors.secondary.light2};
+ /* background-color: ${({ theme }) => theme.colors.secondary.light2}; /*
   padding: ${({ theme }) => theme.gridUnit * 4}px;
   border-radius: ${({ theme }) => theme.gridUnit * 2}px;
   height: ${({ height }) => height}px;
@@ -75,6 +75,7 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
   console.log('Plugin props', props);
 
   function colsGroupConcat(index: number): string | undefined  {
+    if (cols.length === 1)  return data[index][cols[0]] as string;
     return cols.reduce((prev,cur) => data[index][prev] + ' - ' + data[index][cur] as string);
   };
 
@@ -85,17 +86,16 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
       headerFontSize={props.headerFontSize}
       height={height}
       width={width} cols={cols} colsLabels={colsLabels} metrics={metrics}  numberFormat={numberFormat}  >
-      {/* <h3>{props.headerText}</h3> */}
-       
-      <Card title={colsGroupConcat(0)} bordered={false} style={{ width: 400 }}>
-        {metrics.map((metric, index) => (
-          <Row key={index}>
-            <Col span={18}>{data[0][colsLabels[index]]}</Col>
-            <Col span={6}>{formatNumber(numberFormat, data[0][metric.label ? metric.label : metric] as number)}</Col>
-          </Row>
-        ))}
-      </Card>
-      <pre>${JSON.stringify(data, null, 2)}</pre>
+      {data.map((group, indexGroup) => ( 
+        <Card key={indexGroup} title={colsGroupConcat(indexGroup)} bordered={true} style={{ width: 400 }}>
+          {metrics.map((metric, index) => (
+            <Row key={index}>
+              <Col span={16}>{data[indexGroup][colsLabels[index]]}</Col>
+              <Col span={8}>{formatNumber(numberFormat, data[0][metric.label ? metric.label : metric] as number)}</Col>
+            </Row>
+          ))}
+        </Card>
+      ))}
     </Styles>
   );
 }
