@@ -91,7 +91,7 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
           {metrics.map((metric, index) => (
             <Row key={index}>
               <Col span={16}>{data[indexGroup][colsLabels[index]]}</Col>
-              <Col span={8}>{formatNumber(numberFormat, data[0][metric.label ? metric.label : metric] as number)}</Col>
+              <Col span={8}>{formatNumber(numberFormat, data[indexGroup][metric.label ? metric.label : metric] as number)}</Col>
             </Row>
           ))}
         </Card>
