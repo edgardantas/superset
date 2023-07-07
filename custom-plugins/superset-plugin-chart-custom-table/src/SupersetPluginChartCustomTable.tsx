@@ -74,6 +74,10 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
 
   console.log('Plugin props', props);
 
+  function getRgbaColor(d3RgbaColor: any) {
+    return 'rgba(' +d3RgbaColor.r +','+d3RgbaColor.g +','+d3RgbaColor.b +','+d3RgbaColor.a +')';
+  }
+
   function colsGroupConcat(index: number): string | undefined  {
     if (cols.length === 1)  return data[index][cols[0]] as string;
     return cols.reduce((prev,cur) => data[index][prev] + ' - ' + data[index][cur] as string);
@@ -123,7 +127,14 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
 
       <h3>{props.headerText}</h3>  
       {data.map((group, indexGroup) => ( 
-        <Card key={indexGroup} title={colsGroupConcat(indexGroup)} bordered={true} style={{ width: 600, marginBottom: "10px" }}>
+        <Card 
+          key={indexGroup} 
+          title={colsGroupConcat(indexGroup)} 
+          bordered={true} 
+          headStyle={{backgroundColor: getRgbaColor(props.headerBackgroundColor)}} 
+          bodyStyle={{backgroundColor: getRgbaColor(props.bodyBackgroundColor)}} 
+          style={{ width: 'auto', marginBottom: "10px" }}>
+
           {metrics.map((metric, index) => (
             <>
             { console.info("collabel", data[indexGroup][colsLabels[index]])}
