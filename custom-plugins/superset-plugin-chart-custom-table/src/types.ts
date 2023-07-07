@@ -24,13 +24,15 @@ export interface SupersetPluginChartCustomTableStylesProps {
   cols: string[], 
   colsLabels: string[],
   metrics: any[],
-  numberFormat: string,
   headerFontSize: keyof typeof supersetTheme.typography.sizes;
   boldText: boolean;
 }
 
 interface SupersetPluginChartCustomTableCustomizeProps {
   headerText: string;
+  numberFormat: string,
+  headerBackgroundColor: string;
+  bodyBackgroundColor: string;
 }
 
 export type SupersetPluginChartCustomTableQueryFormData = QueryFormData &

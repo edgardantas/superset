@@ -78,6 +78,40 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
     if (cols.length === 1)  return data[index][cols[0]] as string;
     return cols.reduce((prev,cur) => data[index][prev] + ' - ' + data[index][cur] as string);
   };
+// TODO:
+//   cor de backgroun do card-header
+//        card-body
+// cor do titulo
+// font do titulo
+// mais de um card por linha
+
+// export type InternalControlType =
+//   | 'AnnotationLayerControl'
+//   | 'BoundsControl'
+//   | 'CheckboxControl'
+//   | 'CollectionControl'
+//   | 'ColorPickerControl'
+//   | 'ColorSchemeControl'
+//   | 'DatasourceControl'
+//   | 'DateFilterControl'
+//   | 'FixedOrMetricControl'
+//   | 'HiddenControl'
+//   | 'SelectAsyncControl'
+//   | 'SelectControl'
+//   | 'SliderControl'
+//   | 'SpatialControl'
+//   | 'TextAreaControl'
+//   | 'TextControl'
+//   | 'TimeSeriesColumnControl'
+//   | 'ViewportControl'
+//   | 'VizTypeControl'
+//   | 'MetricsControl'
+//   | 'AdhocFilterControl'
+//   | 'FilterBoxItemControl'
+//   | 'DndColumnSelect'
+//   | 'DndFilterSelect'
+//   | 'DndMetricSelect'
+
 
   return (
     <Styles
@@ -85,14 +119,22 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
       boldText={props.boldText}
       headerFontSize={props.headerFontSize}
       height={height}
-      width={width} cols={cols} colsLabels={colsLabels} metrics={metrics}  numberFormat={numberFormat}  >
+      width={width} cols={cols} colsLabels={colsLabels} metrics={metrics}  >
+
+      <h3>{props.headerText}</h3>  
       {data.map((group, indexGroup) => ( 
-        <Card key={indexGroup} title={colsGroupConcat(indexGroup)} bordered={true} style={{ width: 400 }}>
+        <Card key={indexGroup} title={colsGroupConcat(indexGroup)} bordered={true} style={{ width: 600, marginBottom: "10px" }}>
           {metrics.map((metric, index) => (
+            <>
+            { console.info("collabel", data[indexGroup][colsLabels[index]])}
+            { data[indexGroup][colsLabels[index]] !== null && (
             <Row key={index}>
               <Col span={16}>{data[indexGroup][colsLabels[index]]}</Col>
-              <Col span={8}>{formatNumber(numberFormat, data[indexGroup][metric.label ? metric.label : metric] as number)}</Col>
+              <Col style={{textAlign: "right"}} span={8}>{formatNumber(numberFormat, data[indexGroup][metric.label ? metric.label : metric] as number)}</Col>
             </Row>
+            )
+            }
+            </>
           ))}
         </Card>
       ))}

@@ -160,6 +160,30 @@ const config: ControlPanelConfig = {
         ],
         [
           {
+            name: 'header_background_color',
+            config: {
+              type: 'ColorPickerControl',
+              default: { r: 255, g: 255, b: 255, a: 0 },
+              renderTrigger: true,
+              label: t('Header Background Color'),
+              description: t('Header Background Color'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'body_background_color',
+            config: {
+              type: 'ColorPickerControl',
+              default: { r: 255, g: 255, b: 255, a: 0 },
+              renderTrigger: true,
+              label: t('Body Background Color'),
+              description: t('Body Background Color'),
+            },
+          },
+        ],
+        [
+          {
             name: 'number_format',
             config: {
               type: 'SelectControl',
