@@ -184,6 +184,20 @@ const config: ControlPanelConfig = {
         ],
         [
           {
+            name: 'card_by_row',
+            config: {
+              type: 'SliderControl',
+              min: 1,
+              max: 8,
+              default: 2,
+              renderTrigger: true,
+              label: t('Number of Cards by Row'),
+              description: t('Number of Cards by Row'),
+            },
+          },
+        ],
+        [
+          {
             name: 'number_format',
             config: {
               type: 'SelectControl',
