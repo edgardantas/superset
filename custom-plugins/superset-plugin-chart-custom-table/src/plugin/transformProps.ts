@@ -49,7 +49,7 @@ export default function transformProps(chartProps: ChartProps) {
    * be seen until restarting the development server.
    */
   const { width, height, formData, queriesData } = chartProps;
-  const { boldText, headerFontSize, headerText, cols, colsLabels, metrics, numberFormat, headerBackgroundColor, bodyBackgroundColor } = formData;
+  const { boldText, headerFontSize, headerText, cols, colsLabels, metrics, numberFormat, headerBackgroundColor, bodyBackgroundColor, cardsByRow } = formData;
   let data = queriesData[0].data as TimeseriesDataRecord[];
 
   // data.forEach(element => {
@@ -80,5 +80,6 @@ export default function transformProps(chartProps: ChartProps) {
     headerText,
     headerBackgroundColor,
     bodyBackgroundColor,
+    cardsByRow,
   };
 }

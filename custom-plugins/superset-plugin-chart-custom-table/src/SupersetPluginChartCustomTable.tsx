@@ -19,6 +19,7 @@
 import React, { useEffect, createRef } from 'react';
 import { styled, formatNumber } from '@superset-ui/core';
 import { Card, Row, Col } from 'antd';
+import { TimeseriesDataRecord } from '@superset-ui/core';
 import { SupersetPluginChartCustomTableProps, SupersetPluginChartCustomTableStylesProps } from './types';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -29,12 +30,10 @@ import { SupersetPluginChartCustomTableProps, SupersetPluginChartCustomTableStyl
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
 const Styles = styled.div<SupersetPluginChartCustomTableStylesProps>`
- /* background-color: ${({ theme }) => theme.colors.secondary.light2}; /*
-  padding: ${({ theme }) => theme.gridUnit * 4}px;
-  border-radius: ${({ theme }) => theme.gridUnit * 2}px;
-  height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
-
+  {
+    overflow: scroll;
+  }
+ 
   h3 {
     /* You can use your props to control CSS! */
     margin-top: 0;
@@ -43,11 +42,6 @@ const Styles = styled.div<SupersetPluginChartCustomTableStylesProps>`
     font-weight: ${({ theme, boldText }) => theme.typography.weights[boldText ? 'bold' : 'normal']};
   }
 
-  pre {
-    height: ${({ theme, headerFontSize, height }) => (
-      height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]
-    )}px;
-  }
 `;
 
 /**
@@ -61,16 +55,16 @@ const Styles = styled.div<SupersetPluginChartCustomTableStylesProps>`
 export default function SupersetPluginChartCustomTable(props: SupersetPluginChartCustomTableProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, cols, colsLabels, height, width, metrics, numberFormat } = props;
+  const { data, cols, colsLabels,  metrics, numberFormat, cardsByRow } = props;
 
   const rootElem = createRef<HTMLDivElement>();
 
   // Often, you just want to access the DOM and do whatever you want.
   // Here, you can do that with createRef, and the useEffect hook.
-  useEffect(() => {
-    const root = rootElem.current as HTMLElement;
-    console.log('Plugin element', root);
-  });
+  // useEffect(() => {
+  //   const root = rootElem.current as HTMLElement;
+  //   console.log('Plugin element', root);
+  // });
 
   console.log('Plugin props', props);
 
@@ -78,9 +72,27 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
     return 'rgba(' +d3RgbaColor.r +','+d3RgbaColor.g +','+d3RgbaColor.b +','+d3RgbaColor.a +')';
   }
 
-  function colsGroupConcat(index: number): string | undefined  {
-    if (cols.length === 1)  return data[index][cols[0]] as string;
-    return cols.reduce((prev,cur) => data[index][prev] + ' - ' + data[index][cur] as string);
+  function getCards(): any[][]  {
+    const cards: any[] = [];
+    let linha = 0;
+    let coluna = 0;
+    cards[linha] = [];
+    for (let index = 0; index < data.length; index++) {
+      if (cards[linha] === undefined) cards[linha] = [];
+      cards[linha][coluna] = data[index];
+      coluna++
+      if(coluna+1>cardsByRow) {
+        linha++
+        coluna=0
+      }
+    }
+    console.info("linhas",cardsByRow, cards)
+    return cards;
+  }
+
+  function colsGroupConcat(group: any): string | undefined  {
+    if (cols.length === 1)  return group[cols[0]] as string;
+    return cols.reduce((prev,cur) => group[prev] + ' - ' + group[cur] as string);
   };
 // TODO:
 //   cor de backgroun do card-header
@@ -122,33 +134,39 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
       ref={rootElem}
       boldText={props.boldText}
       headerFontSize={props.headerFontSize}
-      height={height}
-      width={width} cols={cols} colsLabels={colsLabels} metrics={metrics}  >
-
+    cols={cols} colsLabels={colsLabels} metrics={metrics} >
+      <div>
       <h3>{props.headerText}</h3>  
-      {data.map((group, indexGroup) => ( 
-        <Card 
-          key={indexGroup} 
-          title={colsGroupConcat(indexGroup)} 
-          bordered={true} 
-          headStyle={{backgroundColor: getRgbaColor(props.headerBackgroundColor)}} 
-          bodyStyle={{backgroundColor: getRgbaColor(props.bodyBackgroundColor)}} 
-          style={{ width: 'auto', marginBottom: "10px" }}>
+      {getCards().map((groupRow, indexGroupRow) => ( 
+        <Row gutter={12}>
+          {groupRow.map((group, indexGroup) => (
+            <Col span={24/cardsByRow}>
+              <Card 
+                key={indexGroup} 
+                title={colsGroupConcat(group)} 
+                bordered={true} 
+                headStyle={{backgroundColor: getRgbaColor(props.headerBackgroundColor)}} 
+                bodyStyle={{backgroundColor: getRgbaColor(props.bodyBackgroundColor)}} 
+                style={{ width: 'auto', marginBottom: "10px" }}>
 
-          {metrics.map((metric, index) => (
-            <>
-            { console.info("collabel", data[indexGroup][colsLabels[index]])}
-            { data[indexGroup][colsLabels[index]] !== null && (
-            <Row key={index}>
-              <Col span={16}>{data[indexGroup][colsLabels[index]]}</Col>
-              <Col style={{textAlign: "right"}} span={8}>{formatNumber(numberFormat, data[indexGroup][metric.label ? metric.label : metric] as number)}</Col>
-            </Row>
-            )
-            }
-            </>
+                {metrics.map((metric, index) => (
+                  <>
+
+                  { group[colsLabels[index]] !== null && (
+                  <Row key={index}>
+                    <Col flex={2}>{group[colsLabels[index]]}</Col>
+                    <Col style={{textAlign: "right", fontFamily: "monospace"}} flex={1}>{formatNumber(numberFormat, group[metric.label ? metric.label : metric] as number)}</Col>
+                  </Row>
+                  )
+                  }
+                  </>
+                ))}
+              </Card>
+            </Col>
           ))}
-        </Card>
+        </Row>
       ))}
+      </div>
     </Styles>
   );
 }

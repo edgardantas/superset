@@ -184,7 +184,7 @@ const config: ControlPanelConfig = {
         ],
         [
           {
-            name: 'card_by_row',
+            name: 'cards_by_row',
             config: {
               type: 'SliderControl',
               min: 1,

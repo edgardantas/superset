@@ -19,8 +19,8 @@
 import { QueryFormData, supersetTheme, TimeseriesDataRecord } from '@superset-ui/core';
 
 export interface SupersetPluginChartCustomTableStylesProps {
-  height: number;
-  width: number;
+  // height: number;
+  // width: number;
   cols: string[], 
   colsLabels: string[],
   metrics: any[],
@@ -33,6 +33,7 @@ interface SupersetPluginChartCustomTableCustomizeProps {
   numberFormat: string,
   headerBackgroundColor: string;
   bodyBackgroundColor: string;
+  cardsByRow: number;
 }
 
 export type SupersetPluginChartCustomTableQueryFormData = QueryFormData &
