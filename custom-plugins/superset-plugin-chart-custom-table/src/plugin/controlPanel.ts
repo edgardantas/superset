@@ -147,19 +147,6 @@ const config: ControlPanelConfig = {
       controlSetRows: [
         [
           {
-            name: 'header_text',
-            config: {
-              type: 'TextControl',
-              default: 'Hello, World MPFAnalise RIF!',
-              renderTrigger: true,
-              // ^ this makes it apply instantaneously, without triggering a "run query" button
-              label: t('Header Text'),
-              description: t('The text you want to see in the header'),
-            },
-          },
-        ],
-        [
-          {
             name: 'header_background_color',
             config: {
               type: 'ColorPickerControl',

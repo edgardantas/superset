@@ -16,10 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useEffect, createRef } from 'react';
+import React, { createRef } from 'react';
 import { styled, formatNumber } from '@superset-ui/core';
 import { Card, Row, Col } from 'antd';
-import { TimeseriesDataRecord } from '@superset-ui/core';
 import { SupersetPluginChartCustomTableProps, SupersetPluginChartCustomTableStylesProps } from './types';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -30,32 +29,22 @@ import { SupersetPluginChartCustomTableProps, SupersetPluginChartCustomTableStyl
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
 const Styles = styled.div<SupersetPluginChartCustomTableStylesProps>`
-  {
-    overflow: scroll;
-  }
- 
-  h3 {
-    /* You can use your props to control CSS! */
-    margin-top: 0;
-    margin-bottom: ${({ theme }) => theme.gridUnit * 3}px;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+
+  .card-titulo {
     font-size: ${({ theme, headerFontSize }) => theme.typography.sizes[headerFontSize]}px;
     font-weight: ${({ theme, boldText }) => theme.typography.weights[boldText ? 'bold' : 'normal']};
   }
-
 `;
-
-/**
- * ******************* WHAT YOU CAN BUILD HERE *******************
- *  In essence, a chart is given a few key ingredients to work with:
- *  * Data: provided via `props.data`
- *  * A DOM element
- *  * FormData (your controls!) provided as props by transformProps.ts
- */
 
 export default function SupersetPluginChartCustomTable(props: SupersetPluginChartCustomTableProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, cols, colsLabels,  metrics, numberFormat, cardsByRow } = props;
+  const { data, cols, height, width,  colsLabels,  metrics, numberFormat, cardsByRow } = props;
 
   const rootElem = createRef<HTMLDivElement>();
 
@@ -65,8 +54,6 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
   //   const root = rootElem.current as HTMLElement;
   //   console.log('Plugin element', root);
   // });
-
-  console.log('Plugin props', props);
 
   function getRgbaColor(d3RgbaColor: any) {
     return 'rgba(' +d3RgbaColor.r +','+d3RgbaColor.g +','+d3RgbaColor.b +','+d3RgbaColor.a +')';
@@ -86,7 +73,6 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
         coluna=0
       }
     }
-    console.info("linhas",cardsByRow, cards)
     return cards;
   }
 
@@ -132,18 +118,18 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
   return (
     <Styles
       ref={rootElem}
+      width={width}
+      height={height}
       boldText={props.boldText}
       headerFontSize={props.headerFontSize}
-    cols={cols} colsLabels={colsLabels} metrics={metrics} >
-      <div>
-      <h3>{props.headerText}</h3>  
+      cols={cols} colsLabels={colsLabels} metrics={metrics} >
       {getCards().map((groupRow, indexGroupRow) => ( 
-        <Row gutter={12}>
+        <Row key={indexGroupRow} gutter={12}>
           {groupRow.map((group, indexGroup) => (
-            <Col span={24/cardsByRow}>
+            <Col key={indexGroup} span={24/cardsByRow}>
               <Card 
                 key={indexGroup} 
-                title={colsGroupConcat(group)} 
+                title={<span className='card-titulo'>{colsGroupConcat(group)}</span>} 
                 bordered={true} 
                 headStyle={{backgroundColor: getRgbaColor(props.headerBackgroundColor)}} 
                 bodyStyle={{backgroundColor: getRgbaColor(props.bodyBackgroundColor)}} 
@@ -151,7 +137,6 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
 
                 {metrics.map((metric, index) => (
                   <>
-
                   { group[colsLabels[index]] !== null && (
                   <Row key={index}>
                     <Col flex={2}>{group[colsLabels[index]]}</Col>
@@ -166,7 +151,6 @@ export default function SupersetPluginChartCustomTable(props: SupersetPluginChar
           ))}
         </Row>
       ))}
-      </div>
     </Styles>
   );
 }
