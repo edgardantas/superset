@@ -80,9 +80,9 @@ import {
 } from 'src/filters/components';
 import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/plugin-chart-pivot-table';
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
+import { SupersetPluginChartDataCards } from 'superset-plugin-chart-data-cards/lib';
 import FilterBoxChartPlugin from '../FilterBox/FilterBoxChartPlugin';
 import TimeTableChartPlugin from '../TimeTable';
-import { SupersetPluginChartCustomTable } from 'superset-plugin-chart-custom-table';
 
 export default class MainPreset extends Preset {
   constructor() {
@@ -170,7 +170,7 @@ export default class MainPreset extends Preset {
         new EchartsSunburstChartPlugin().configure({ key: 'sunburst_v2' }),
         new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         ...experimentalplugins,
-        new SupersetPluginChartCustomTable().configure({key: 'custom_table'})
+        new SupersetPluginChartDataCards().configure({ key: 'data_cards' }),
       ],
     });
   }
