@@ -39,6 +39,7 @@ embedDashboard({
   id: "abc123", // given by the Superset embedding UI
   supersetDomain: "https://superset.example.com",
   mountPoint: document.getElementById("my-superset-container"), // any html element that can contain an iframe
+  permaLinkKey: "n122oLzx2md", // permanent link key (optional)
   fetchGuestToken: () => fetchGuestTokenFromBackend(),
   dashboardUiConfig: { // dashboard UI config: hideTitle, hideTab, hideChartControls, filters.visible, filters.expanded (optional)
       hideTitle: true,
