@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useEffect, createRef } from 'react';
+import React, { createRef } from 'react';
 import { styled, formatNumber } from '@superset-ui/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Card, Row, Col } from 'antd';
