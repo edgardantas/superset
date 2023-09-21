@@ -2,16 +2,28 @@
   "name": "@superset-ui/plugin-chart-echarts",
   "version": "2.1.0",
   "description": "Superset Chart - Echarts",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "esm",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/superset.git",
+    "directory": "superset-frontend/plugins/plugin-chart-echarts"
+  },
   "keywords": [
     "superset"
   ],
   "homepage": "https://github.com/apache-superset/superset-ui#readme",
   "bugs": {
-    "url": "https://github.com/apache-superset/superset-ui/issues"
+    "url": "https://github.com/apache/superset/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/apache-superset/superset-ui.git"
+  "homepage": "https://github.com/apache/superset/tree/master/superset-frontend/plugins/plugin-chart-echarts#readme",
+  "publishConfig": {
+    "access": "public"
   },
   "license": "Apache-2.0",
   "author": "Superset",

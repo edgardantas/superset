@@ -24,6 +24,23 @@
     "esm",
     "lib"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/superset.git",
+    "directory": "superset-frontend/packages/legacy-preset-chart-nvd3"
+  },
+  "keywords": [
+    "superset"
+  ],
+  "author": "Superset",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/apache/superset/issues"
+  },
+  "homepage": "https://github.com/apache/superset/tree/master/superset-frontend/plugins/legacy-preset-chart-nvd3#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@data-ui/xy-chart": "^0.0.84",
     "d3": "^3.5.17",
